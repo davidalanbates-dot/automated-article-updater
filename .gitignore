@@ -1,0 +1,14 @@
+﻿# Secrets - never commit service account keys
+secrets/
+*-key.json
+sa-key*.json
+service-account*.json
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS
+.DS_Store
