@@ -84,7 +84,11 @@ The first time you run it, it'll walk you through what it needs and
 save your answers so you don't have to repeat this:
 
 - **Your Sheet ID** — paste the full URL of the Sheet you created in
-  step 3, or just the ID; either works.
+  step 3, or just the ID; either works. **Before running this, double
+  check you've shared that Sheet with
+  `automated-article-json@automated-article-updater.iam.gserviceaccount.com`
+  as Editor (step 3) — forgetting this is the most common reason the
+  push fails.**
 - **Your service account key path** — the local path where you (or
   Claude) saved the JSON file from step 2, e.g. `~/keys/sa-key.json`.
 - **Your CSV path** — use something like `data/<your-name>/before_after.csv`

@@ -23,6 +23,9 @@ import sys
 
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+
+SERVICE_ACCOUNT_EMAIL = "automated-article-json@automated-article-updater.iam.gserviceaccount.com"
 
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
@@ -155,7 +158,16 @@ def main():
     with open(csv_path, newline="", encoding="utf-8") as f:
         rows = list(csv.reader(f))
 
-    meta = service.spreadsheets().get(spreadsheetId=sheet_id).execute()
+    try:
+        meta = service.spreadsheets().get(spreadsheetId=sheet_id).execute()
+    except HttpError as e:
+        if e.resp.status in (403, 404):
+            sys.exit(
+                f"Couldn't access Sheet {sheet_id} (HTTP {e.resp.status}).\n"
+                f"Most likely cause: you haven't shared this Sheet with the service account yet.\n"
+                f"Open the Sheet, click Share, and add {SERVICE_ACCOUNT_EMAIL} as Editor, then try again."
+            )
+        raise
     sheet_title = meta["sheets"][0]["properties"]["title"]
 
     # Clear first so a shrinking dataset doesn't leave stale rows behind
