@@ -64,10 +64,12 @@ financial wellbeing, which needs high accuracy and current sourcing.
 ## Cross-article consistency
 
 Before finalizing, check whether a new edit contradicts a stat already
-used elsewhere in `data/before_after.csv` (e.g., don't have one
+used elsewhere in your own CSV (`$CSV_PATH`) — e.g., don't have one
 article say colorectal cancer is Malaysia's #1 cancer in men while
-another, using more current GLOBOCAN data, says it's #2). When in
-doubt, grep the existing CSV for the topic first.
+another, using more current GLOBOCAN data, says it's #2. When in
+doubt, grep your CSV for the topic first. Each contributor works
+against their own CSV and Sheet (see `docs/SETUP.md`), so this check
+only needs to cover your own dataset, not everyone else's in the repo.
 
 ## Workflow
 
@@ -81,15 +83,18 @@ doubt, grep the existing CSV for the topic first.
    `edits` (`before`, `after`, `source_name`, `source_url`,
    `malaysia_specific`, `notes`), and an `unresolved` field for
    anything it couldn't verify.
-4. **Compile results into `data/before_after.csv`** — columns are
-   `Article URL, BEFORE, AFTER, Source, Date Updated, Notes`. Leave
-   `BEFORE` blank when an edit is a new addition rather than a
-   replacement. Combine `source_name` and `source_url` into one
+4. **Compile results into your `$CSV_PATH`** (e.g.
+   `data/<your-name>/before_after.csv` — see `docs/SETUP.md`) —
+   columns are `Article URL, BEFORE, AFTER, Source, Date Updated,
+   Notes`. Leave `BEFORE` blank when an edit is a new addition rather
+   than a replacement. Combine `source_name` and `source_url` into one
    `Source` cell separated by ` | `.
-5. **Push to the Sheet**: `python3 scripts/push_to_sheet.py` (needs
-   `SHEET_ID` and `SHEET_KEY_PATH` set — see `docs/SETUP.md`).
-6. **Commit and push to git** so the CSV (the real source of truth)
-   stays in sync with the team and with the Sheet.
+5. **Push to your Sheet**: `python3 scripts/push_to_sheet.py` (needs
+   `SHEET_ID`, `SHEET_KEY_PATH`, and `CSV_PATH` set — see
+   `docs/SETUP.md`). Each contributor has their own Sheet — never
+   point your `SHEET_ID` at someone else's.
+6. **Commit and push to git** so your CSV (the real source of truth
+   for your Sheet) stays in the shared repo alongside everyone else's.
 7. **Report flagged items** to the user: anything where no
    Malaysia-specific data exists, any internal-consistency corrections
    made, and any low-confidence calls worth a second look.
