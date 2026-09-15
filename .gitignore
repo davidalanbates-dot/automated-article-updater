@@ -4,6 +4,7 @@ secrets/
 sa-key*.json
 service-account*.json
 .env
+scripts/.push_config.json
 
 # Python
 __pycache__/
